@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.view.Window;
@@ -45,10 +46,10 @@ public abstract class BaseGameControllerActivity extends Activity implements Gam
         Bitmap frameBuffer = Bitmap.createBitmap(frameBufferWidth,
                 frameBufferHeight, Bitmap.Config.RGB_565);
 
-        float scaleX = (float) frameBufferWidth
-                / getWindowManager().getDefaultDisplay().getWidth();
-        float scaleY = (float) frameBufferHeight
-                / getWindowManager().getDefaultDisplay().getHeight();
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(size);
+        float scaleX = (float) frameBufferWidth / size.x;
+        float scaleY = (float) frameBufferHeight / size.y;
 
         renderView = new AndroidFastRenderView(this, frameBuffer);
         graphics = new BaseGraphics(getAssets(), frameBuffer);
