@@ -30,7 +30,6 @@ public abstract class BaseGameControllerActivity extends Activity implements Gam
     Input input;
     FileIO fileIO;
     ScreenController screen;
-    PowerManager.WakeLock wakeLock;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +62,6 @@ public abstract class BaseGameControllerActivity extends Activity implements Gam
     @Override
     public void onResume() {
         super.onResume();
-        wakeLock.acquire();
         screen.resume();
         renderView.resume();
     }
@@ -71,7 +69,6 @@ public abstract class BaseGameControllerActivity extends Activity implements Gam
     @Override
     public void onPause() {
         super.onPause();
-        wakeLock.release();
         renderView.pause();
         screen.pause();
 

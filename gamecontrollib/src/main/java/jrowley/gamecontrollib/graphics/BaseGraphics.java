@@ -85,10 +85,10 @@ public class BaseGraphics implements Graphics {
         canvas.drawLine(x, y, x2, y2, paint);
     }
 
-    public void drawRect(int x, int y, int width, int height, int color) {
+    public void drawRect(int left, int top, int width, int height, int color) {
         paint.setColor(color);
         paint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(x, y, x + width - 1, y + width - 1, paint);
+        canvas.drawRect(left, top, left + width - 1, top + height - 1, paint);
     }
 
     public void drawPixmap(Pixmap pixmap, int x, int y, int srcX, int srcY,
