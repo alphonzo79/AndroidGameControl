@@ -7,7 +7,16 @@ import jrowley.gamecontrollib.game_control.GameController;
 /**
  * Created by jrowley on 11/2/15.
  */
-public interface ScreenController {
-    public void update(long deltaTime, GameController gameController);
-    public void present(SurfaceHolder surfaceHolder);
+public abstract class ScreenController {
+    protected final GameController gameController;
+
+    public ScreenController(GameController gameController) {
+        this.gameController = gameController;
+    }
+
+    public abstract void update(float deltaTime);
+    public abstract void present(float deltaTime);
+    public abstract void pause();
+    public abstract void resume();
+    public abstract void dispose();
 }

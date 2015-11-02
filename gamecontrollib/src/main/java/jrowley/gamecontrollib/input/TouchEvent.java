@@ -1,4 +1,4 @@
-package jrowley.gamecontrollib.touch_handling;
+package jrowley.gamecontrollib.input;
 
 /**
  * Created by jrowley on 11/2/15.

@@ -1,4 +1,4 @@
-package jrowley.gamecontrollib.touch_handling;
+package jrowley.gamecontrollib.input;
 
 import android.view.MotionEvent;
 import android.view.View;
