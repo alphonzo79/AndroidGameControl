@@ -23,7 +23,7 @@ import jrowley.gamecontrollib.screen_control.ScreenController;
 /**
  * Created by jrowley on 11/2/15.
  */
-public abstract class BaseGameControllerActivity extends Activity implements GameController, Runnable {
+public abstract class BaseGameControllerActivity extends Activity implements GameController {
     AndroidFastRenderView renderView;
     Graphics graphics;
     Audio audio;
