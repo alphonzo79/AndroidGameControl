@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -31,6 +32,8 @@ public abstract class BaseGameControllerActivity extends Activity implements Gam
     FileIO fileIO;
     ScreenController screen;
 
+    boolean setupComplete = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,41 +42,61 @@ public abstract class BaseGameControllerActivity extends Activity implements Gam
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        boolean isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-        int frameBufferWidth = isLandscape ? 480 : 320;
-        int frameBufferHeight = isLandscape ? 320 : 480;
-        Bitmap frameBuffer = Bitmap.createBitmap(frameBufferWidth,
-                frameBufferHeight, Bitmap.Config.RGB_565);
-
-        Point size = new Point();
-        getWindowManager().getDefaultDisplay().getSize(size);
-        float scaleX = (float) frameBufferWidth / size.x;
-        float scaleY = (float) frameBufferHeight / size.y;
-
-        renderView = new AndroidFastRenderView(this, frameBuffer);
-        graphics = new BaseGraphics(getAssets(), frameBuffer);
-        fileIO = new BasicFileIO(this);
-        audio = new BaseAudio(this);
-        input = new BaseInput(this, renderView, scaleX, scaleY);
-        screen = getStartScreen();
-        setContentView(renderView);
+        renderView = setUpContentView();
+        if(renderView.getFramebuffer() != null) {
+            completeSetup();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        screen.resume();
-        renderView.resume();
+        if(setupComplete) {
+            screen.resume();
+            renderView.resume();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        renderView.pause();
-        screen.pause();
+        if(setupComplete) {
+            renderView.pause();
+            screen.pause();
 
-        if (isFinishing())
-            screen.dispose();
+            if (isFinishing())
+                screen.dispose();
+        }
+    }
+
+    AndroidFastRenderView setUpContentView() {
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(size);
+        int frameBufferWidth = size.x;
+        int frameBufferHeight = size.y;
+        Bitmap frameBuffer = Bitmap.createBitmap(frameBufferWidth, frameBufferHeight, Bitmap.Config.RGB_565);
+
+        AndroidFastRenderView view = new AndroidFastRenderView(this, frameBuffer);
+        setContentView(view);
+
+        return view;
+    }
+
+    void completeSetup() {
+        Bitmap frameBuffer = renderView.getFramebuffer();
+
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(size);
+        float scaleX = (float) frameBuffer.getWidth() / size.x;
+        float scaleY = (float) frameBuffer.getHeight() / size.y;
+
+        graphics = new BaseGraphics(getAssets(), frameBuffer);
+        fileIO = new BasicFileIO(this);
+        audio = new BaseAudio(this);
+        input = new BaseInput(this, renderView, scaleX, scaleY);
+        screen = getStartScreen();
+
+        setupComplete = true;
     }
 
     public Input getInput() {

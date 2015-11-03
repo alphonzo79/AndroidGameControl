@@ -14,7 +14,7 @@ public class BaseInput implements Input {
 
     public BaseInput(Context context, View view, float scaleX, float scaleY) {
         accelHandler = new AccelerometerHandler(context);
-        touchHandler = new MultiTouchHandler(view, scaleX, scaleY);
+        touchHandler = new SingleTouchHandler(view, scaleX, scaleY);
     }
 
     public boolean isTouchDown(int pointer) {

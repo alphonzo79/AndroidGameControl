@@ -1,8 +1,10 @@
 package jrowley.gamecontrollib.game_control;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -16,11 +18,40 @@ public class AndroidFastRenderView extends SurfaceView implements Runnable {
     SurfaceHolder holder;
     volatile boolean running = false;
 
+    private OnMeasureListener onMeasureListener;
+
+    public AndroidFastRenderView(Context context) {
+        super(context);
+        this.holder = getHolder();
+    }
+
+    public AndroidFastRenderView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.holder = getHolder();
+    }
+
+    public AndroidFastRenderView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        this.holder = getHolder();
+    }
+
     public AndroidFastRenderView(BaseGameControllerActivity game, Bitmap framebuffer) {
         super(game);
         this.game = game;
         this.framebuffer = framebuffer;
         this.holder = getHolder();
+    }
+
+    public void setGame(BaseGameControllerActivity game) {
+        this.game = game;
+    }
+
+    public void setFramebuffer(Bitmap framebuffer) {
+        this.framebuffer = framebuffer;
+    }
+
+    public Bitmap getFramebuffer() {
+        return this.framebuffer;
     }
 
     public void resume() {
@@ -59,5 +90,22 @@ public class AndroidFastRenderView extends SurfaceView implements Runnable {
                 // retry
             }
         }
+    }
+
+    @Override
+    public void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+
+        if(onMeasureListener != null) {
+            onMeasureListener.onMeasure();
+        }
+    }
+
+    public void setOnMeasureListener(OnMeasureListener onMeasureListener) {
+        this.onMeasureListener = onMeasureListener;
+    }
+
+    public interface OnMeasureListener {
+        public void onMeasure();
     }
 }
