@@ -106,4 +106,9 @@ public abstract class BaseGameControllerActivity extends Activity implements Gam
     public ScreenController getCurrentScreen() {
         return screen;
     }
+
+    @Override
+    public String getStringResource(int resourceId) {
+        return getString(resourceId);
+    }
 }

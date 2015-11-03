@@ -23,4 +23,5 @@ public interface GameController {
     public void setScreen(ScreenController screen);
     public ScreenController getCurrentScreen();
     public ScreenController getStartScreen();
+    public String getStringResource(int resourceId);
 }

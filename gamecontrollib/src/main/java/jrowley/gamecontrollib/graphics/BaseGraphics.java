@@ -180,8 +180,11 @@ public class BaseGraphics implements Graphics {
         paint.setColor(color);
         paint.setTextSize(textSize);
         paint.setTypeface(typeface);
+        paint.setTextAlign(Paint.Align.LEFT);
         float width = paint.measureText(text);
-        canvas.drawText(text, (int) (centerX - (width / 2)), topY, paint);
+        //y origin appears to be based on the center of the height.
+        int realTopY = (int)(topY + (textSize / 2));
+        canvas.drawText(text, (int) (centerX - (width / 2)), realTopY, paint);
     }
 
     /**
