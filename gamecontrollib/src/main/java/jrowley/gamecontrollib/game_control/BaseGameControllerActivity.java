@@ -90,7 +90,7 @@ public abstract class BaseGameControllerActivity extends Activity implements Gam
         float scaleX = (float) frameBuffer.getWidth() / size.x;
         float scaleY = (float) frameBuffer.getHeight() / size.y;
 
-        graphics = new BaseGraphics(getAssets(), frameBuffer);
+        graphics = new BaseGraphics(this, getAssets(), frameBuffer);
         fileIO = new BasicFileIO(this);
         audio = new BaseAudio(this);
         input = new BaseInput(this, renderView, scaleX, scaleY);

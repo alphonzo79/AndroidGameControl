@@ -1,5 +1,6 @@
 package jrowley.gamecontrollib.graphics;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,12 +22,15 @@ public class BaseGraphics implements Graphics {
     Paint paint;
     Rect srcRect = new Rect();
     Rect dstRect = new Rect();
+    float scaleRatio;
 
-    public BaseGraphics(AssetManager assets, Bitmap frameBuffer) {
+    public BaseGraphics(Context context, AssetManager assets, Bitmap frameBuffer) {
         this.assets = assets;
         this.frameBuffer = frameBuffer;
         this.canvas = new Canvas(frameBuffer);
         this.paint = new Paint();
+
+        scaleRatio = context.getResources().getDisplayMetrics().density;
     }
 
     /**
@@ -163,28 +167,19 @@ public class BaseGraphics implements Graphics {
      */
     @Override
     public void drawPixmap(Pixmap pixmap, int x, int y) {
-        canvas.drawBitmap(((BasePixmap)pixmap).bitmap, x, y, null);
+        canvas.drawBitmap(((BasePixmap) pixmap).bitmap, x, y, null);
     }
 
-    /**
-     *
-     * @param text
-     * @param centerX
-     * @param topY
-     * @param color
-     * @param textSize
-     * @param typeface
-     */
     @Override
-    public void writeText(String text, int centerX, int topY, int color, float textSize, Typeface typeface) {
+    public void writeText(String text, int xAnchorPoint, int top, int color, int textSizeIndependentPixels, Typeface typeface, Paint.Align alignment) {
+        float textSize = textSizeIndependentPixels * scaleRatio;
         paint.setColor(color);
         paint.setTextSize(textSize);
         paint.setTypeface(typeface);
-        paint.setTextAlign(Paint.Align.LEFT);
-        float width = paint.measureText(text);
+        paint.setTextAlign(alignment);
         //y origin appears to be based on the center of the height.
-        int realTopY = (int)(topY + (textSize / 2));
-        canvas.drawText(text, (int) (centerX - (width / 2)), realTopY, paint);
+        int realTopY = (int)(top + (textSize / 2));
+        canvas.drawText(text, xAnchorPoint, realTopY, paint);
     }
 
     /**
@@ -203,5 +198,10 @@ public class BaseGraphics implements Graphics {
     @Override
     public int getHeight() {
         return frameBuffer.getHeight();
+    }
+
+    @Override
+    public float getScale() {
+        return scaleRatio;
     }
 }
