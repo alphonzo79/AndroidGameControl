@@ -11,6 +11,7 @@ import jrowley.gamecontrollib.input.Input;
 import jrowley.gamecontrollib.io_control.FileIO;
 import jrowley.gamecontrollib.screen_control.ScreenController;
 import jrowley.gamecontrollib.input.TouchHandler;
+import jrowley.gamecontrollib.util.FrameRateTracker;
 
 /**
  * Created by jrowley on 11/2/15.
@@ -24,4 +25,5 @@ public interface GameController {
     public ScreenController getCurrentScreen();
     public ScreenController getStartScreen();
     public String getStringResource(int resourceId);
+    public FrameRateTracker getFrameRateTracker();
 }

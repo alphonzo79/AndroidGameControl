@@ -1,13 +1,9 @@
 package jrowley.gamecontrollib.game_control;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -20,6 +16,7 @@ import jrowley.gamecontrollib.input.Input;
 import jrowley.gamecontrollib.io_control.BasicFileIO;
 import jrowley.gamecontrollib.io_control.FileIO;
 import jrowley.gamecontrollib.screen_control.ScreenController;
+import jrowley.gamecontrollib.util.FrameRateTracker;
 
 /**
  * Created by jrowley on 11/2/15.
@@ -31,6 +28,7 @@ public abstract class BaseGameControllerActivity extends Activity implements Gam
     Input input;
     FileIO fileIO;
     ScreenController screen;
+    FrameRateTracker frameRateTracker;
 
     boolean setupComplete = false;
 
@@ -96,6 +94,8 @@ public abstract class BaseGameControllerActivity extends Activity implements Gam
         input = new BaseInput(this, renderView, scaleX, scaleY);
         screen = getStartScreen();
 
+        frameRateTracker = new FrameRateTracker();
+
         setupComplete = true;
     }
 
@@ -119,8 +119,10 @@ public abstract class BaseGameControllerActivity extends Activity implements Gam
         if (screen == null)
             throw new IllegalArgumentException("Screen must not be null");
 
-        this.screen.pause();
-        this.screen.dispose();
+        if(this.screen != null) {
+            this.screen.pause();
+            this.screen.dispose();
+        }
         screen.resume();
         screen.update(0);
         this.screen = screen;
@@ -133,5 +135,10 @@ public abstract class BaseGameControllerActivity extends Activity implements Gam
     @Override
     public String getStringResource(int resourceId) {
         return getString(resourceId);
+    }
+
+    @Override
+    public FrameRateTracker getFrameRateTracker() {
+        return frameRateTracker;
     }
 }

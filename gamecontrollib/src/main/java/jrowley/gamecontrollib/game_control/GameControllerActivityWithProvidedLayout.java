@@ -1,10 +1,6 @@
 package jrowley.gamecontrollib.game_control;
 
 import android.graphics.Bitmap;
-import android.graphics.Point;
-import android.util.Log;
-
-import jrowley.gamecontrollib.R;
 
 /**
  * Created by jrowley on 11/3/15.
