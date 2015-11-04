@@ -141,4 +141,11 @@ public abstract class BaseGameControllerActivity extends Activity implements Gam
     public FrameRateTracker getFrameRateTracker() {
         return frameRateTracker;
     }
+
+    @Override
+    public void onBackPressed() {
+        if(screen == null || !screen.onBackPressed()) {
+            super.onBackPressed();
+        }
+    }
 }
