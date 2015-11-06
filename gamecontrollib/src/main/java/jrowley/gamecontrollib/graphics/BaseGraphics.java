@@ -33,12 +33,6 @@ public class BaseGraphics implements Graphics {
         scaleRatio = context.getResources().getDisplayMetrics().density;
     }
 
-    /**
-     *
-     * @param fileName
-     * @param format
-     * @return
-     */
     @Override
     public Pixmap newPixmap(String fileName, PixmapFormat format) {
         Bitmap.Config config = null;
@@ -82,22 +76,12 @@ public class BaseGraphics implements Graphics {
         return new BasePixmap(bitmap, format);
     }
 
-    /**
-     *
-     * @param color
-     */
     @Override
     public void clear(int color) {
         canvas.drawRGB((color & 0xff0000) >> 16, (color & 0xff00) >> 8,
                 (color & 0xff));
     }
 
-    /**
-     *
-     * @param x
-     * @param y
-     * @param color
-     */
     @Override
     public void drawPixel(int x, int y, int color) {
         paint.reset();
@@ -105,14 +89,6 @@ public class BaseGraphics implements Graphics {
         canvas.drawPoint(x, y, paint);
     }
 
-    /**
-     *
-     * @param x
-     * @param y
-     * @param x2
-     * @param y2
-     * @param color
-     */
     @Override
     public void drawLine(int x, int y, int x2, int y2, float width, int color) {
         paint.reset();
@@ -122,14 +98,6 @@ public class BaseGraphics implements Graphics {
         canvas.drawLine(x, y, x2, y2, paint);
     }
 
-    /**
-     *
-     * @param left
-     * @param top
-     * @param width
-     * @param height
-     * @param color
-     */
     @Override
     public void drawRect(int left, int top, int width, int height, int color) {
         paint.reset();
@@ -138,16 +106,6 @@ public class BaseGraphics implements Graphics {
         canvas.drawRect(left, top, left + width - 1, top + height - 1, paint);
     }
 
-    /**
-     *
-     * @param pixmap
-     * @param x
-     * @param y
-     * @param srcX
-     * @param srcY
-     * @param srcWidth
-     * @param srcHeight
-     */
     @Override
     public void drawPixmap(Pixmap pixmap, int x, int y, int srcX, int srcY,
                            int srcWidth, int srcHeight) {
@@ -164,40 +122,34 @@ public class BaseGraphics implements Graphics {
         canvas.drawBitmap(((BasePixmap) pixmap).bitmap, srcRect, dstRect, null);
     }
 
-    /**
-     *
-     * @param pixmap
-     * @param x
-     * @param y
-     */
     @Override
     public void drawPixmap(Pixmap pixmap, int x, int y) {
         canvas.drawBitmap(((BasePixmap) pixmap).bitmap, x, y, null);
     }
 
     @Override
-    public void writeText(String text, int xAnchorPoint, int yAnchorPoint, int color, float textSize, Typeface typeface, Paint.Align alignment) {
+    public void writeText(String text, int xAnchorPoint, int yBaseline, int color, float textSize, Typeface typeface, Paint.Align alignment) {
         paint.reset();
         paint.setColor(color);
         paint.setTextSize(textSize);
         paint.setTypeface(typeface);
         paint.setTextAlign(alignment);
-        canvas.drawText(text, xAnchorPoint, yAnchorPoint, paint);
+        canvas.drawText(text, xAnchorPoint, yBaseline, paint);
     }
 
-    /**
-     *
-     * @return
-     */
+    @Override
+    public void getTextBounds(String text, float textSize, Typeface typeface, Paint.Align alignment, Rect bounds) {
+        paint.setTextAlign(alignment);
+        paint.setTextSize(textSize);
+        paint.setTypeface(typeface);
+        paint.getTextBounds(text, 0, text.length(), bounds);
+    }
+
     @Override
     public int getWidth() {
         return frameBuffer.getWidth();
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int getHeight() {
         return frameBuffer.getHeight();
