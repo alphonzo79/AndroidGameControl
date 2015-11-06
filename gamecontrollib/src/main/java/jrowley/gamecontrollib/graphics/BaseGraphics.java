@@ -100,6 +100,7 @@ public class BaseGraphics implements Graphics {
      */
     @Override
     public void drawPixel(int x, int y, int color) {
+        paint.reset();
         paint.setColor(color);
         canvas.drawPoint(x, y, paint);
     }
@@ -113,8 +114,11 @@ public class BaseGraphics implements Graphics {
      * @param color
      */
     @Override
-    public void drawLine(int x, int y, int x2, int y2, int color) {
+    public void drawLine(int x, int y, int x2, int y2, float width, int color) {
+        paint.reset();
         paint.setColor(color);
+        paint.setStrokeWidth(width);
+        paint.setStyle(Paint.Style.STROKE);
         canvas.drawLine(x, y, x2, y2, paint);
     }
 
@@ -128,6 +132,7 @@ public class BaseGraphics implements Graphics {
      */
     @Override
     public void drawRect(int left, int top, int width, int height, int color) {
+        paint.reset();
         paint.setColor(color);
         paint.setStyle(Paint.Style.FILL);
         canvas.drawRect(left, top, left + width - 1, top + height - 1, paint);
@@ -173,6 +178,7 @@ public class BaseGraphics implements Graphics {
     @Override
     public void writeText(String text, int xAnchorPoint, int top, int color, int textSizeIndependentPixels, Typeface typeface, Paint.Align alignment) {
         float textSize = textSizeIndependentPixels * scaleRatio;
+        paint.reset();
         paint.setColor(color);
         paint.setTextSize(textSize);
         paint.setTypeface(typeface);
