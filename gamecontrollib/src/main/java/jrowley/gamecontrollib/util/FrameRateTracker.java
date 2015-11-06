@@ -21,11 +21,13 @@ public class FrameRateTracker {
     private final int LEFT = 50;
     private final int TOP = 50;
     private final int TEXT_COLOR = Color.WHITE;
-    private final int FONT_SIZE = 12;
+    private final int FONT_SIZE_BASE = 12;
+    private final float fontSize;
 
-    public FrameRateTracker() {
+    public FrameRateTracker(float scale) {
         deltaTimes = new float[100];
         index = 0;
+        fontSize = FONT_SIZE_BASE * scale;
     }
 
     public void update(float portionOfSecond) {
@@ -55,6 +57,6 @@ public class FrameRateTracker {
     }
 
     public void writeFrameRate(Graphics graphics) {
-        graphics.writeText(String.valueOf(getFrameRate()) + SPACE_FPS, LEFT, TOP, TEXT_COLOR, FONT_SIZE, Typeface.SANS_SERIF, Paint.Align.LEFT);
+        graphics.writeText(String.valueOf(getFrameRate()) + SPACE_FPS, LEFT, TOP, TEXT_COLOR, fontSize, Typeface.SANS_SERIF, Paint.Align.LEFT);
     }
 }

@@ -94,7 +94,7 @@ public abstract class BaseGameControllerActivity extends Activity implements Gam
         input = new BaseInput(this, renderView, scaleX, scaleY);
         screen = getStartScreen();
 
-        frameRateTracker = new FrameRateTracker();
+        frameRateTracker = new FrameRateTracker(getGraphics().getScale());
 
         setupComplete = true;
     }
