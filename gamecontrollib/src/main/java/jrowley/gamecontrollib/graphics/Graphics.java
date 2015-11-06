@@ -19,6 +19,7 @@ public interface Graphics {
     public void drawPixmap(Pixmap pixmap, int x, int y, int srcX, int srcY, int srcWidth, int srcHeight);
     public void drawPixmap(Pixmap pixmap, int x, int y);
     public void writeText(String text, int xAnchorPoint, int top, int color, int textSizeIndependentPixels, Typeface typeface, Paint.Align alignment);
+    public void writeTextPreScaled(String text, int xAnchorPoint, int top, int color, float textSizePreScaled, Typeface typeface, Paint.Align alignment);
     public int getWidth();
     public int getHeight();
     public float getScale();
