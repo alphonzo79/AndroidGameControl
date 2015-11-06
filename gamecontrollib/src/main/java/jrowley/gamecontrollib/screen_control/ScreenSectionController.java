@@ -8,12 +8,16 @@ import jrowley.gamecontrollib.game_control.GameController;
 public abstract class ScreenSectionController {
     protected int sectionLeft;
     protected int sectionTop;
+    protected int sectionWidth;
+    protected int sectionHeight;
 
-    public ScreenSectionController(int sectionLeft, int sectionTop) {
+    public ScreenSectionController(int sectionLeft, int sectionTop, int sectionWidth, int sectionHeight) {
         this.sectionLeft = sectionLeft;
         this.sectionTop = sectionTop;
+        this.sectionWidth = sectionWidth;
+        this.sectionHeight = sectionHeight;
     }
-    
+
     public abstract void update(float deltaTime, GameController gameController);
     public abstract void present(float deltaTime, GameController gameController);
     public abstract void pause(GameController gameController);
