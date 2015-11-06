@@ -176,28 +176,13 @@ public class BaseGraphics implements Graphics {
     }
 
     @Override
-    public void writeText(String text, int xAnchorPoint, int top, int color, int textSizeIndependentPixels, Typeface typeface, Paint.Align alignment) {
-        float textSize = textSizeIndependentPixels * scaleRatio;
+    public void writeText(String text, int xAnchorPoint, int yAnchorPoint, int color, float textSize, Typeface typeface, Paint.Align alignment) {
         paint.reset();
         paint.setColor(color);
         paint.setTextSize(textSize);
         paint.setTypeface(typeface);
         paint.setTextAlign(alignment);
-        //y origin appears to be based on the center of the height.
-        int realTopY = (int)(top + (textSize / 2));
-        canvas.drawText(text, xAnchorPoint, realTopY, paint);
-    }
-
-    @Override
-    public void writeTextPreScaled(String text, int xAnchorPoint, int top, int color, float textSizePreScaled, Typeface typeface, Paint.Align alignment) {
-        paint.reset();
-        paint.setColor(color);
-        paint.setTextSize(textSizePreScaled);
-        paint.setTypeface(typeface);
-        paint.setTextAlign(alignment);
-        //y origin appears to be based on the center of the height.
-        int realTopY = (int)(top + (textSizePreScaled / 2));
-        canvas.drawText(text, xAnchorPoint, realTopY, paint);
+        canvas.drawText(text, xAnchorPoint, yAnchorPoint, paint);
     }
 
     /**
