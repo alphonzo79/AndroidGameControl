@@ -19,7 +19,7 @@ public class FrameRateTracker {
 
     private final String SPACE_FPS = " fps";
     private final int LEFT = 50;
-    private final int TOP = 50;
+    private final int TOP = 100;
     private final int TEXT_COLOR = Color.WHITE;
     private final int FONT_SIZE_BASE = 12;
     private final float fontSize;
