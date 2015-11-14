@@ -1,6 +1,9 @@
 package jrowley.gamecontrollib.screen_control;
 
+import java.util.List;
+
 import jrowley.gamecontrollib.game_control.GameController;
+import jrowley.gamecontrollib.input.TouchEvent;
 
 /**
  * Created by jrowley on 11/5/15.
@@ -21,7 +24,7 @@ public abstract class ScreenSectionController {
         this.sectionHeight = sectionHeight;
     }
 
-    public abstract void update(float deltaTime);
+    public abstract void update(float deltaTime, List<TouchEvent> touchEvents);
     public abstract void present(float deltaTime);
     public abstract void pause();
     public abstract void resume();
